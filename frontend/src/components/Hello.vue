@@ -17,15 +17,36 @@
       <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
     </ul>
+    <button class=”Search__button” @click="callRestService()">CALL Spring Boot REST backend service</button>
+
+	<h3>{{ response }}</h3>
+
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
-  name: 'hello',
+  name: 'service',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'HowTo call REST-Services:',
+      response: [],
+      errors: []
+    }
+  },
+  methods: {
+    // Fetches posts when the component is created.
+    callRestService () {
+      axios.get(`api/hello`)
+        .then(response => {
+          // JSON responses are automatically parsed.
+          this.response = response.data
+          console.log(response.data)
+        })
+        .catch(e => {
+          this.errors.push(e)
+        })
     }
   }
 }
